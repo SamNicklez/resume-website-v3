@@ -1,0 +1,83 @@
+'use client';
+
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+
+const navLinks = [
+  { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Contact', href: '#contact' },
+];
+
+export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-blue-100 shadow-sm">
+      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="#" className="text-xl font-bold text-blue-700 tracking-tight">
+          Sam Nicklaus
+        </a>
+
+        {/* Desktop Links */}
+        <ul className="hidden md:flex gap-8">
+          {navLinks.map((link) => (
+            <li key={link.label}>
+              <a
+                href={link.href}
+                className="text-slate-600 hover:text-blue-600 font-medium transition-colors duration-200"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA Button */}
+        <a
+          href="#contact"
+          className="hidden md:inline-block bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md"
+        >
+          Let's Connect
+        </a>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className="md:hidden text-slate-700"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="md:hidden bg-white border-t border-blue-100 px-6 pb-4">
+          <ul className="flex flex-col gap-4 mt-4">
+            {navLinks.map((link) => (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-slate-600 hover:text-blue-600 font-medium transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href="#contact"
+                onClick={() => setMenuOpen(false)}
+                className="inline-block bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Let's Connect
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
+    </nav>
+  );
+}
