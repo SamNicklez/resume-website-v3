@@ -4,18 +4,16 @@ export default function HeroSection() {
   return (
     <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-24 bg-gradient-to-br from-white via-blue-50 to-sky-100">
 
-      {/* Heading */}
-      <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-4 leading-tight">
-        Sam{' '}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-400">
-          Nicklaus
-        </span>
-      </h1>
-
-      {/* Subheading */}
-      <p className="text-xl md:text-2xl text-slate-600 font-medium mb-4 max-w-2xl">
-        PLM Consultant & Defense Systems Specialist
-      </p>
+        {/* Heading */}
+        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 mb-4 leading-tight">
+          Sam{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-400">
+            Nicklaus
+          </span>
+          <span className="block text-xl md:text-2xl text-slate-600 font-medium mt-2">
+            PLM Consultant & Defense Systems Specialist
+          </span>
+        </h1>
 
       {/* Description — Updated */}
       <p className="text-base md:text-lg text-slate-500 max-w-2xl mb-10 leading-relaxed">

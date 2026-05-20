@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sam Nicklaus | PLM Consultant & Defense Systems Specialist",
     description:
-      "Teamcenter PLM consultant specializing in Active Workspace, BMIDE, and defense-grade system implementation. ASEP & CompTIA Security+ certified.",
+      "Teamcenter PLM consultant specializing in Active Workspace, BMIDE, and defense-grade system implementation.",
     url: "https://https://samuel-nicklaus.vercel.app",
     siteName: "Sam Nicklaus Portfolio",
     type: "website",
