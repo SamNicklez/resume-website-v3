@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://samuel-nicklaus.vercel.app/og-image.png",
         width: 1200,
         height: 630,
         alt: "Sam Nicklaus — PLM Consultant & Defense Systems Specialist",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: "Sam Nicklaus | PLM Consultant & Defense Systems Specialist",
     description:
       "Teamcenter PLM consultant specializing in Active Workspace, BMIDE, and defense-grade system implementation.",
-    images: ["/og-image.png"],
+    images: ["https://samuel-nicklaus.vercel.app/og-image.png"],
   },
   robots: {
     index: true,
