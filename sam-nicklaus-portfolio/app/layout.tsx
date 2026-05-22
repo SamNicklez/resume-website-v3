@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Sam Nicklaus | PLM Consultant & Defense Systems Specialist",
     description:
       "Teamcenter PLM consultant specializing in Active Workspace, BMIDE, and defense-grade system implementation.",
-    url: "https://www.samnicklaus.com/",
+    url: "https://www.samnicklaus.com",
     siteName: "Sam Nicklaus Portfolio",
     type: "website",
     images: [
