@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Sam Nicklaus | PLM Consultant & Defense Systems Specialist",
   description:
-    "Teamcenter PLM consultant specializing in Active Workspace customization, BMIDE configuration, and workflow development for mission-critical U.S. defense programs. ASEP & CompTIA Security+ certified.",
+    "Teamcenter PLM consultant specializing in Active Workspace customization, BMIDE configuration, and workflow development for mission-critical U.S. defense programs.",
   keywords: [
     "Teamcenter PLM",
     "Active Workspace",
@@ -37,12 +37,12 @@ export const metadata: Metadata = {
     title: "Sam Nicklaus | PLM Consultant & Defense Systems Specialist",
     description:
       "Teamcenter PLM consultant specializing in Active Workspace, BMIDE, and defense-grade system implementation.",
-    url: "https://https://samuel-nicklaus.vercel.app",
+    url: "https://www.samnicklaus.com/",
     siteName: "Sam Nicklaus Portfolio",
     type: "website",
     images: [
       {
-        url: "https://samuel-nicklaus.vercel.app/og-image.png",
+        url: "https://www.samnicklaus.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "Sam Nicklaus — PLM Consultant & Defense Systems Specialist",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: "Sam Nicklaus | PLM Consultant & Defense Systems Specialist",
     description:
       "Teamcenter PLM consultant specializing in Active Workspace, BMIDE, and defense-grade system implementation.",
-    images: ["https://samuel-nicklaus.vercel.app/og-image.png"],
+    images: ["https://www.samnicklaus.com/og-image.png"],
   },
   robots: {
     index: true,
