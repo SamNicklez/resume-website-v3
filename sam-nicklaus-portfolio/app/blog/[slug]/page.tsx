@@ -26,6 +26,85 @@ type Post = {
   };
 };
 
+// ── Portable Text Custom Components ──
+const portableTextComponents = {
+  block: {
+    h1: ({ children }: any) => (
+      <h1 className="text-4xl font-bold text-slate-800 mt-10 mb-4 leading-tight">
+        {children}
+      </h1>
+    ),
+    h2: ({ children }: any) => (
+      <h2 className="text-3xl font-bold text-slate-800 mt-10 mb-4 leading-tight">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }: any) => (
+      <h3 className="text-2xl font-semibold text-slate-700 mt-8 mb-3 leading-snug">
+        {children}
+      </h3>
+    ),
+    h4: ({ children }: any) => (
+      <h4 className="text-xl font-semibold text-slate-700 mt-6 mb-2">
+        {children}
+      </h4>
+    ),
+    normal: ({ children }: any) => (
+      <p className="text-base text-slate-600 leading-relaxed mb-4">
+        {children}
+      </p>
+    ),
+    blockquote: ({ children }: any) => (
+      <blockquote className="border-l-4 border-blue-300 pl-4 italic text-slate-500 my-6">
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }: any) => (
+      <ul className="list-disc list-outside pl-6 mb-4 space-y-1 text-slate-600">
+        {children}
+      </ul>
+    ),
+    number: ({ children }: any) => (
+      <ol className="list-decimal list-outside pl-6 mb-4 space-y-1 text-slate-600">
+        {children}
+      </ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }: any) => (
+      <li className="leading-relaxed">{children}</li>
+    ),
+    number: ({ children }: any) => (
+      <li className="leading-relaxed">{children}</li>
+    ),
+  },
+  marks: {
+    strong: ({ children }: any) => (
+      <strong className="font-semibold text-slate-800">{children}</strong>
+    ),
+    em: ({ children }: any) => (
+      <em className="italic text-slate-600">{children}</em>
+    ),
+    code: ({ children }: any) => (
+      <code className="bg-slate-100 text-blue-600 px-1.5 py-0.5 rounded text-sm font-mono">
+        {children}
+      </code>
+    ),
+    link: ({ children, value }: any) => (
+      <a
+        href={value?.href}
+        target={value?.blank ? '_blank' : '_self'}
+        rel={value?.blank ? 'noopener noreferrer' : undefined}
+        className="text-blue-600 hover:text-blue-700 underline underline-offset-2 transition-colors duration-200"
+      >
+        {children}
+      </a>
+    ),
+  },
+};
+
 // ── Data Fetching ──
 async function getPost(slug: string): Promise<Post | null> {
   return client.fetch(
@@ -184,8 +263,11 @@ export default async function PostPage({
             <div className="border-t border-blue-100 mb-10" />
 
             {/* ── Body ── */}
-            <div className="prose prose-slate max-w-none">
-              <PortableText value={post.body} />
+            <div className="max-w-none">
+              <PortableText
+                value={post.body}
+                components={portableTextComponents}
+              />
             </div>
 
             {/* ── Divider ── */}
