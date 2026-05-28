@@ -128,14 +128,6 @@ async function getPost(slug: string): Promise<Post | null> {
   );
 }
 
-// ── Static Params ──
-export async function generateStaticParams() {
-  const posts = await client.fetch(
-    `*[_type == "post"]{ "slug": slug.current }`
-  );
-  return posts.map((post: { slug: string }) => ({ slug: post.slug }));
-}
-
 // ── SEO Metadata ──
 export async function generateMetadata({
   params,
