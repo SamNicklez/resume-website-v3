@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '/#about' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 export default function Navbar() {
@@ -16,12 +16,12 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-blue-100 shadow-sm">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="text-xl font-bold text-blue-700 tracking-tight">
+        <a href="/#" className="text-xl font-bold text-blue-700 tracking-tight">
           Sam Nicklaus
         </a>
 
         {/* Desktop Links */}
-        <ul className="hidden md:flex gap-8">
+        <ul className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <li key={link.label}>
               <a
@@ -32,15 +32,17 @@ export default function Navbar() {
               </a>
             </li>
           ))}
-        </ul>
 
-        {/* CTA Button */}
-        <a
-          href="#contact"
-          className="hidden md:inline-block bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md"
-        >
-          Let's Connect
-        </a>
+          {/* ── Blog Pill ── */}
+          <li>
+            <a
+              href="/blog"
+              className="bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors duration-200"
+            >
+              Blog
+            </a>
+          </li>
+        </ul>
 
         {/* Mobile Menu Toggle */}
         <button
@@ -66,11 +68,24 @@ export default function Navbar() {
                 </a>
               </li>
             ))}
+
+            {/* ── Blog Pill ── */}
             <li>
               <a
-                href="#contact"
+                href="/blog"
                 onClick={() => setMenuOpen(false)}
-                className="inline-block bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors"
+                className="inline-block bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors duration-200"
+              >
+                Blog
+              </a>
+            </li>
+
+            {/* ── Let's Connect ── */}
+            <li>
+              <a
+                href="/#contact"
+                onClick={() => setMenuOpen(false)}
+                className="inline-block bg-slate-700 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-slate-800 transition-colors"
               >
                 Let's Connect
               </a>
