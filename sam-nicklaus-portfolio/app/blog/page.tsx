@@ -52,7 +52,7 @@ export default async function BlogPage() {
           Thoughts on software, PLM systems, and everything in between.
         </p>
 
-        {/* ── Search Bar ── */}
+        {/* ── Search Bar ──
         <Link href="/blog/search">
           <div className="flex items-center gap-3 w-full bg-white border border-blue-100 shadow-sm rounded-full px-5 py-3 mb-12 cursor-pointer hover:border-blue-400 hover:shadow-md transition-all duration-200">
             <svg
@@ -70,7 +70,7 @@ export default async function BlogPage() {
             </svg>
             <span className="text-slate-400 text-sm">Search articles...</span>
           </div>
-        </Link>
+        </Link> */}
 
         {/* ── Two Column Layout ── */}
         <div className="flex flex-col lg:flex-row gap-12">
@@ -194,7 +194,8 @@ export default async function BlogPage() {
               ))}
             </div>
           </div>
-          <BlogSidebar />
+          {/* <BlogSidebar posts={posts} /> */}
+          <BlogSidebar/>
         </div>
       </section>
 
