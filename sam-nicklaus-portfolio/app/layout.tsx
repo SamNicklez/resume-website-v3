@@ -38,9 +38,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.samnicklaus.com',
   },
-  verification: {
-    google: 'your-google-verification-code',
-  },
   openGraph: {
     title: "Sam Nicklaus | PLM Consultant & Defense Systems Specialist",
     description:
@@ -48,14 +45,6 @@ export const metadata: Metadata = {
     url: "https://www.samnicklaus.com",
     siteName: "Sam Nicklaus Portfolio",
     type: "website",
-    images: [
-      {
-        url: "https://www.samnicklaus.com/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Sam Nicklaus Portfolio and Blog — PLM Consultant & Defense Systems Specialist",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
