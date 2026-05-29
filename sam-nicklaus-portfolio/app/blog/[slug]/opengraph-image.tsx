@@ -3,7 +3,7 @@ import { client } from '@/sanity/client';
 
 export const runtime = 'nodejs';
 export const alt = 'Blog Post';
-export const size = { width: 1200, height: 630 };
+export const size = { width: 1200, height: 630 }; // ← stays the same (meta tag hint only)
 export const contentType = 'image/png';
 
 // ── Fetch just what we need for the OG image ──
@@ -47,21 +47,21 @@ export default async function PostOGImage({
     (
       <div
         style={{
-          width: '1200px',
-          height: '630px',
+          width: '2400px',               // ← 2x
+          height: '1260px',              // ← 2x
           backgroundColor: '#ffffff',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '72px 80px',
+          padding: '144px 160px',        // ← 2x
           fontFamily: 'sans-serif',
-          borderTop: '8px solid #2563eb',
+          borderTop: '16px solid #2563eb', // ← 2x
         }}
       >
         {/* ── Top: Site Label ── */}
         <div
           style={{
-            fontSize: '20px',
+            fontSize: '40px',            // ← 2x
             color: '#2563eb',
             fontWeight: 600,
             letterSpacing: '0.05em',
@@ -72,20 +72,20 @@ export default async function PostOGImage({
         </div>
 
         {/* ── Middle: Title + Description ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}> {/* ← 2x gap */}
 
           {/* Tags */}
           {tags.length > 0 && (
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div style={{ display: 'flex', gap: '24px' }}> {/* ← 2x gap */}
               {tags.map((tag: string) => (
                 <div
                   key={tag}
                   style={{
                     backgroundColor: '#eff6ff',
-                    border: '1px solid #bfdbfe',
+                    border: '2px solid #bfdbfe',   // ← 2x
                     borderRadius: '999px',
-                    padding: '6px 18px',
-                    fontSize: '18px',
+                    padding: '12px 36px',           // ← 2x
+                    fontSize: '36px',               // ← 2x
                     color: '#2563eb',
                     fontWeight: 600,
                   }}
@@ -99,11 +99,11 @@ export default async function PostOGImage({
           {/* Title */}
           <div
             style={{
-              fontSize: '58px',
+              fontSize: '116px',         // ← 2x
               fontWeight: 800,
               color: '#1e293b',
               lineHeight: 1.1,
-              maxWidth: '900px',
+              maxWidth: '1800px',        // ← 2x
             }}
           >
             {title}
@@ -113,10 +113,10 @@ export default async function PostOGImage({
           {description && (
             <div
               style={{
-                fontSize: '24px',
+                fontSize: '48px',        // ← 2x
                 color: '#64748b',
                 lineHeight: 1.5,
-                maxWidth: '860px',
+                maxWidth: '1720px',      // ← 2x
                 overflow: 'hidden',
                 display: '-webkit-box',
                 WebkitLineClamp: 2,
@@ -136,24 +136,27 @@ export default async function PostOGImage({
             alignItems: 'center',
           }}
         >
-          <div style={{ fontSize: '18px', color: '#94a3b8' }}>{date}</div>
+          <div style={{ fontSize: '36px', color: '#94a3b8' }}>{date}</div> {/* ← 2x */}
           <div
             style={{
               backgroundColor: '#eff6ff',
-              border: '1px solid #bfdbfe',
+              border: '2px solid #bfdbfe',  // ← 2x
               borderRadius: '999px',
-              padding: '10px 24px',
-              fontSize: '18px',
+              padding: '20px 48px',          // ← 2x
+              fontSize: '36px',              // ← 2x
               color: '#2563eb',
               fontWeight: 600,
             }}
           >
-            yoursite.com/blog
+            samnicklaus.com/blog
           </div>
         </div>
 
       </div>
     ),
-    { ...size }
+    {
+      width: 2400,  // ← 2x output
+      height: 1260, // ← 2x output
+    }
   );
 }
