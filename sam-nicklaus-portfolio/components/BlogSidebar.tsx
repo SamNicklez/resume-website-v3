@@ -1,18 +1,27 @@
 // components/BlogSidebar.tsx
+'use client';
+
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 type Post = {
   tags?: string[];
 };
 
 type BlogSidebarProps = {
-  posts?: Post[]; // optional — only needed for the "Browse by Tag" card
+  posts?: Post[];
 };
 
 export default function BlogSidebar({ posts }: BlogSidebarProps) {
+  const router = useRouter();
+
   const allTags = posts
     ? [...new Set(posts.flatMap((p) => p.tags ?? []))]
     : [];
+
+  function handleTagClick(tag: string) {
+    router.push(`/blog/search?tag=${encodeURIComponent(tag)}`);
+  }
 
   return (
     <aside className="w-full lg:w-72 flex flex-col gap-6 shrink-0">
@@ -38,10 +47,7 @@ export default function BlogSidebar({ posts }: BlogSidebarProps) {
           engineering, PLM systems, and building cool things on the web.
         </p>
 
-        {/* ── Buttons ── */}
         <div className="flex flex-col gap-3 mt-5">
-
-          {/* ── LinkedIn Button ── */}
           <a
             href="https://www.linkedin.com/in/sam-nicklaus/"
             target="_blank"
@@ -55,7 +61,6 @@ export default function BlogSidebar({ posts }: BlogSidebarProps) {
             Let's Connect
           </a>
 
-          {/* ── Contact Button ── */}
           <a
             href="/#contact"
             className="flex items-center justify-center gap-2 bg-slate-700 hover:bg-slate-800 text-white px-5 py-2 rounded-full text-sm font-semibold transition-colors duration-200 shadow-md"
@@ -65,11 +70,10 @@ export default function BlogSidebar({ posts }: BlogSidebarProps) {
             </svg>
             Contact
           </a>
-
         </div>
       </div>
 
-      {/* ── Browse by Tag Card (only renders if posts are passed in) ── */}
+      {/* ── Browse by Tag Card ── */}
       {allTags.length > 0 && (
         <div className="bg-white border border-blue-100 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-semibold text-slate-700 mb-4 uppercase tracking-wide">
@@ -77,12 +81,13 @@ export default function BlogSidebar({ posts }: BlogSidebarProps) {
           </h3>
           <div className="flex flex-wrap gap-2">
             {allTags.map((tag) => (
-              <span
+              <button
                 key={tag}
+                onClick={() => handleTagClick(tag)}
                 className="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1 rounded-full font-medium hover:bg-blue-600 hover:text-white cursor-pointer transition-colors duration-200"
               >
                 {tag}
-              </span>
+              </button>
             ))}
           </div>
         </div>

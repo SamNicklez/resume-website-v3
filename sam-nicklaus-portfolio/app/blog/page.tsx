@@ -56,7 +56,7 @@ export const metadata: Metadata = {
 // ── Data Fetching ──
 async function getPosts(): Promise<Post[]> {
   return client.fetch(
-    `*[_type == "post"] | order(publishedAt desc) {
+    `*[_type == "post"] | order(publishedAt desc) [0...6] {
       title,
       "slug": slug.current,
       publishedAt,
@@ -239,7 +239,7 @@ export default async function BlogPage() {
           </div>
 
           {/* ── RIGHT: Sidebar ── */}
-          <BlogSidebar />
+          <BlogSidebar posts={posts} />
 
         </div>
       </section>
