@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { client } from '@/sanity/client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -6,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BlogSidebar from '@/components/BlogSidebar';
 
+// ── Types ──
 type Post = {
   title: string;
   slug: string;
@@ -18,6 +20,40 @@ type Post = {
   };
 };
 
+// ── SEO Metadata ──
+export const metadata: Metadata = {
+  title: 'Sam Nicklaus Blog | PLM, Teamcenter & Software Insights',
+  description:
+    'Explore articles on PLM solutions, Siemens Teamcenter, software implementation, systems engineering, and smart manufacturing — written by a practicing PLM consultant.',
+  keywords: [
+    'PLM blog',
+    'Teamcenter blog',
+    'Product Lifecycle Management',
+    'Siemens Teamcenter',
+    'PLM solutions',
+    'software implementation',
+    'systems engineering',
+    'smart manufacturing',
+    'MBSE',
+    'CAD PDM',
+  ],
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Blog | PLM, Teamcenter & Software Insights',
+    description:
+      'Thoughts on PLM systems, Siemens Teamcenter, software engineering, and everything in between.',
+    type: 'website',
+    url: 'https://samnicklaus.com/blog',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog | PLM, Teamcenter & Software Insights',
+    description:
+      'Thoughts on PLM systems, Siemens Teamcenter, software engineering, and everything in between.',
+  },
+};
+
+// ── Data Fetching ──
 async function getPosts(): Promise<Post[]> {
   return client.fetch(
     `*[_type == "post"] | order(publishedAt desc) {
@@ -36,6 +72,7 @@ async function getPosts(): Promise<Post[]> {
   );
 }
 
+// ── Page Component ──
 export default async function BlogPage() {
   const posts = await getPosts();
   const recentPosts = posts.slice(0, 6);
@@ -44,6 +81,32 @@ export default async function BlogPage() {
     <main className="bg-white min-h-screen text-slate-800">
       <Navbar />
 
+      {/* ── JSON-LD Structured Data ── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Blog',
+            name: 'PLM & Teamcenter Blog',
+            description:
+              'Articles on PLM solutions, Siemens Teamcenter, software implementation, and systems engineering.',
+            url: 'https://yoursite.com/blog',
+            author: {
+              '@type': 'Person',
+              name: 'Sam Nicklaus',
+            },
+            blogPost: posts.map((post) => ({
+              '@type': 'BlogPosting',
+              headline: post.title,
+              description: post.description,
+              datePublished: post.publishedAt,
+              url: `https://yoursite.com/blog/${post.slug}`,
+            })),
+          }),
+        }}
+      />
+
       <section className="max-w-6xl mx-auto px-6 pt-32 pb-20">
 
         {/* ── Page Title ── */}
@@ -51,26 +114,6 @@ export default async function BlogPage() {
         <p className="text-slate-500 mb-8">
           Thoughts on software, PLM systems, and everything in between.
         </p>
-
-        {/* ── Search Bar ──
-        <Link href="/blog/search">
-          <div className="flex items-center gap-3 w-full bg-white border border-blue-100 shadow-sm rounded-full px-5 py-3 mb-12 cursor-pointer hover:border-blue-400 hover:shadow-md transition-all duration-200">
-            <svg
-              className="w-4 h-4 text-slate-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
-              />
-            </svg>
-            <span className="text-slate-400 text-sm">Search articles...</span>
-          </div>
-        </Link> */}
 
         {/* ── Two Column Layout ── */}
         <div className="flex flex-col lg:flex-row gap-12">
@@ -194,8 +237,10 @@ export default async function BlogPage() {
               ))}
             </div>
           </div>
-          {/* <BlogSidebar posts={posts} /> */}
-          <BlogSidebar/>
+
+          {/* ── RIGHT: Sidebar ── */}
+          <BlogSidebar />
+
         </div>
       </section>
 

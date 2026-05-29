@@ -32,10 +32,10 @@ export default function HeroSection() {
           Work With Me
         </a>
         <a
-          href="#about"
+          href="/blog"
           className="border-2 border-blue-300 text-blue-700 px-8 py-3.5 rounded-full font-semibold text-base hover:bg-blue-50 transition-all duration-200"
         >
-          Learn More
+          Check out my Blog!
         </a>
       </div>
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://https://samuel-nicklaus.vercel.app/sitemap.xml
+Sitemap: https://samnicklaus.com/sitemap.xml

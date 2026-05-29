@@ -157,15 +157,11 @@ export async function generateMetadata({
       description: metaDescription,
       type: 'article',
       publishedTime: post.publishedAt,
-      images: ogImage
-        ? [{ url: ogImage, width: 1200, height: 630 }]
-        : [],
     },
     twitter: {
       card: 'summary_large_image',
       title: metaTitle,
       description: metaDescription,
-      images: ogImage ? [ogImage] : [],
     },
   };
 }
