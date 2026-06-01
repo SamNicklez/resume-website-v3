@@ -78,6 +78,7 @@ export default function CertificationsSection() {
                   src={cert.logo}
                   alt={cert.name}
                   fill
+                  sizes="64px"
                   className="object-contain p-1"
                 />
               </div>
