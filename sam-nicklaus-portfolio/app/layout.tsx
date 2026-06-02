@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.samnicklaus.com'),
-  title: "Sam Nicklaus Blog | PLM Consultant & Defense Systems Specialist",
+  title: "Sam Nicklaus | PLM Consultant & Defense Systems Specialist",
   description:
     "Teamcenter PLM consultant specializing in Active Workspace customization, BMIDE configuration, and workflow development for mission-critical U.S. defense programs.",
   keywords: [

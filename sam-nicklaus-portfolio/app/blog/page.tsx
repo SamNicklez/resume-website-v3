@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     description:
       'Thoughts on PLM systems, Siemens Teamcenter, software engineering, and everything in between.',
     type: 'website',
-    url: 'https://samnicklaus.com/blog',
+    url: 'https://www.samnicklaus.com/blog',
   },
   twitter: {
     card: 'summary_large_image',
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
 // ── Data Fetching ──
 async function getPosts(): Promise<Post[]> {
   return client.fetch(
-    `*[_type == "post"] | order(publishedAt desc) [0...6] {
+    `*[_type == "post" && !(_id in path("drafts.**"))] | order(publishedAt desc) [0...6] {
       title,
       "slug": slug.current,
       publishedAt,
@@ -91,7 +91,7 @@ export default async function BlogPage() {
             name: 'PLM & Teamcenter Blog',
             description:
               'Articles on PLM solutions, Siemens Teamcenter, software implementation, and systems engineering.',
-            url: 'https://yoursite.com/blog',
+            url: 'https://www.samnicklaus.com/blog',
             author: {
               '@type': 'Person',
               name: 'Sam Nicklaus',
@@ -101,7 +101,7 @@ export default async function BlogPage() {
               headline: post.title,
               description: post.description,
               datePublished: post.publishedAt,
-              url: `https://yoursite.com/blog/${post.slug}`,
+              url: `https://www.samnicklaus.com/blog/${post.slug}`,
             })),
           }),
         }}
@@ -120,9 +120,20 @@ export default async function BlogPage() {
 
           {/* ── LEFT: Article Grid ── */}
           <div className="flex-1">
-            <h2 className="text-xl font-semibold text-slate-700 mb-6 pb-3 border-b border-blue-100">
-              Recent Articles
-            </h2>
+            <div className="flex items-center justify-between mb-6 pb-3 border-b border-blue-100">
+              <h2 className="text-xl font-semibold text-slate-700">
+                Recent Articles
+              </h2>
+              <Link
+                href="/blog/search"
+                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow-md transition-all duration-200"
+              >
+                View all Posts
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
 
             {posts.length === 0 && (
               <p className="text-slate-400">No posts yet. Check back soon!</p>
@@ -237,7 +248,6 @@ export default async function BlogPage() {
               ))}
             </div>
           </div>
-
           {/* ── RIGHT: Sidebar ── */}
           <BlogSidebar posts={posts} />
 

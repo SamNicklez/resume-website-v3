@@ -187,8 +187,22 @@ async function getPost(slug: string): Promise<Post | null> {
         noIndex
       }
     }`,
-    { slug }
+    { slug },
+    { next: { revalidate: 60 } }
   );
+}
+
+// ── Static Params for Pre-rendering ──
+export async function generateStaticParams() {
+  const slugs: { slug: string }[] = await client.fetch(
+    `*[_type == "post" && !(_id in path("drafts.**"))] {
+      "slug": slug.current
+    }`,
+    {},
+    { next: { revalidate: 3600 } }
+  );
+
+  return slugs.map((s) => ({ slug: s.slug }));
 }
 
 // ── SEO Metadata ──
@@ -248,6 +262,27 @@ export default async function PostPage({
   return (
     <main className="bg-white min-h-screen text-slate-800">
       <Navbar />
+
+      {/* ── JSON-LD Structured Data ── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: post.title,
+            description: post.description,
+            datePublished: post.publishedAt,
+            image: post.thumbnailUrl ?? undefined,
+            author: {
+              '@type': 'Person',
+              name: 'Sam Nicklaus',
+            },
+            url: `https://www.samnicklaus.com/blog/${slug}`,
+            keywords: post.tags?.join(', '),
+          }),
+        }}
+      />
 
       {/* ── Page Wrapper ── */}
       <div className="max-w-6xl mx-auto px-6 pt-32 pb-20">
