@@ -23,6 +23,9 @@ type Post = {
 // ── SEO Metadata ──
 export const metadata: Metadata = {
   title: 'Sam Nicklaus Blog | PLM, Teamcenter & Software Insights',
+  alternates: {
+    canonical: '/blog',
+  },
   description:
     'Explore articles on PLM solutions, Siemens Teamcenter, software implementation, systems engineering, and smart manufacturing — written by a practicing PLM consultant.',
   keywords: [
