@@ -19,6 +19,7 @@ type Post = {
   };
 };
 
+// ── Data Fetching ──
 async function searchPosts(
   query: string,
   tag: string,
@@ -26,29 +27,29 @@ async function searchPosts(
   page: number
 ): Promise<{ posts: Post[]; total: number }> {
   const filters = [`_type == "post"`];
+  const params: Record<string, string> = {};
 
   if (tag) {
-    filters.push(`"${tag}" in tags`);
+    filters.push(`$tag in tags`);
+    params.tag = tag;
   }
 
   if (query) {
-    filters.push(`(title match "${query}*" || description match "${query}*")`);
+    filters.push(`(title match $queryWild || description match $queryWild)`);
+    params.queryWild = `${query}*`;
   }
 
   const groqFilter = filters.join(' && ');
 
   // ── Sort order ──
   const order =
-    sort === 'oldest'
-      ? 'publishedAt asc'
-      : sort === 'az'
-      ? 'title asc'
-      : sort === 'za'
-      ? 'title desc'
-      : 'publishedAt desc'; // default: newest
+    sort === 'oldest' ? 'publishedAt asc'
+    : sort === 'az'   ? 'title asc'
+    : sort === 'za'   ? 'title desc'
+    :                   'publishedAt desc'; // default: newest
 
   const start = (page - 1) * POSTS_PER_PAGE;
-  const end = start + POSTS_PER_PAGE;
+  const end   = start + POSTS_PER_PAGE;
 
   const projection = `{
     title,
@@ -66,12 +67,12 @@ async function searchPosts(
   const [posts, total] = await Promise.all([
     client.fetch<Post[]>(
       `*[${groqFilter}] | order(${order}) [${start}...${end}] ${projection}`,
-      {},
+      params,
       { next: { revalidate: 60 } }
     ),
     client.fetch<number>(
       `count(*[${groqFilter}])`,
-      {},
+      params,
       { next: { revalidate: 60 } }
     ),
   ]);
@@ -80,15 +81,15 @@ async function searchPosts(
 }
 
 async function getAllTags(): Promise<string[]> {
-  const tags = await client.fetch<string[][]>(
-    `*[_type == "post" && defined(tags)] { tags }.tags`,
+  const tags = await client.fetch<string[]>(
+    `array::unique(array::compact(*[_type == "post" && defined(tags)].tags[]))`,
     {},
     { next: { revalidate: 60 } }
   );
-  // Flatten and deduplicate
-  return [...new Set(tags.flat())].sort();
+  return [...tags].sort();
 }
 
+// ── Types ──
 type SearchPageProps = {
   searchParams: Promise<{
     q?: string;
@@ -98,11 +99,39 @@ type SearchPageProps = {
   }>;
 };
 
+// ── SEO Metadata ──
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; tag?: string }>;
+}) {
+  const { q, tag } = await searchParams;
+
+  const title = q
+    ? `Search results for "${q}" · Sam Nicklaus`
+    : tag
+    ? `Posts tagged "${tag}" · Sam Nicklaus`
+    : 'Blog Search · Sam Nicklaus';
+
+  const description = q
+    ? `Browse blog posts matching "${q}" on samnicklaus.com.`
+    : tag
+    ? `All blog posts tagged with "${tag}" on samnicklaus.com.`
+    : 'Search and filter all blog posts on samnicklaus.com.';
+
+  return {
+    title,
+    description,
+    robots: 'noindex, nofollow',
+  };
+}
+
+// ── Page Component ──
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { q, tag, sort, page } = await searchParams;
 
-  const query = q ?? '';
-  const resolvedTag = tag ?? '';
+  const query        = q    ?? '';
+  const resolvedTag  = tag  ?? '';
   const resolvedSort = sort ?? 'newest';
   const resolvedPage = Math.max(1, parseInt(page ?? '1', 10));
 
@@ -125,10 +154,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   // ── Helper to build URLs preserving existing params ──
   function buildUrl(overrides: Record<string, string | number>) {
     const params = new URLSearchParams();
-    if (query) params.set('q', query);
-    if (resolvedTag) params.set('tag', resolvedTag);
+    if (query)                     params.set('q',    query);
+    if (resolvedTag)               params.set('tag',  resolvedTag);
     if (resolvedSort !== 'newest') params.set('sort', resolvedSort);
-    if (resolvedPage !== 1) params.set('page', String(resolvedPage));
+    if (resolvedPage !== 1)        params.set('page', String(resolvedPage));
     Object.entries(overrides).forEach(([k, v]) => {
       if (v === '' || v === 'newest' || v === 1) {
         params.delete(k);
@@ -169,8 +198,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               {[
                 { value: 'newest', label: '🕒 Newest' },
                 { value: 'oldest', label: '📅 Oldest' },
-                { value: 'az', label: '🔤 A → Z' },
-                { value: 'za', label: '🔤 Z → A' },
+                { value: 'az',     label: '🔤 A → Z'  },
+                { value: 'za',     label: '🔤 Z → A'  },
               ].map(({ value, label }) => (
                 <Link
                   key={value}
@@ -344,12 +373,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
                 {/* Page Numbers */}
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
-                  // Show first, last, current, and neighbors — collapse the rest
                   const isNearCurrent = Math.abs(p - resolvedPage) <= 1;
                   const isEdge = p === 1 || p === totalPages;
 
                   if (!isNearCurrent && !isEdge) {
-                    // Show ellipsis only once per gap
                     if (p === 2 || p === totalPages - 1) {
                       return (
                         <span key={p} className="text-slate-400 text-sm px-1">
