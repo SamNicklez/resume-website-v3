@@ -224,6 +224,9 @@ export async function generateMetadata({
 
   return {
     title: metaTitle,
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
     description: metaDescription,
     keywords: keywords,
     robots: post.seo?.noIndex
